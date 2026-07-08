@@ -49,7 +49,11 @@ Este documento resume los cambios implementados para habilitar el despliegue del
 
 ### Paso 2: Ejecutar la Inicialización de Datos (Migración y Semillas)
 
-Una vez que tengas las credenciales de tus bases de datos en la nube, puedes inicializarlas ejecutando el script unificado desde tu consola local:
+> [!NOTE]
+> **¡Estado actual: COMPLETADO!** 
+> Ya he ejecutado este script de configuración (`npm run db:setup`) exitosamente conectando a tus bases de datos reales en la nube de Aiven y MongoDB Atlas. Todas las tablas, colecciones, índices e inserts semilla de prueba ya han sido creados en tus bases de datos en la nube.
+>
+> Si por alguna razón necesitas reiniciar o ejecutar la inicialización de nuevo, puedes hacerlo siguiendo estos pasos desde tu consola local:
 
 1. Crea o actualiza tu archivo local `.env` dentro de la carpeta `digibank-mvp/backend/` con las credenciales de la nube:
    ```env
