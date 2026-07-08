@@ -28,10 +28,32 @@ if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1);
 }
 
+// Configuración dinámica de orígenes permitidos por CORS (MVP robusto)
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://digi-bank-iota.vercel.app'
+];
+
+const verificarOrigenCORS = (origin, callback) => {
+  // Permitir peticiones sin origen (como Postman o llamadas internas)
+  if (!origin) return callback(null, true);
+  
+  const esVercel = origin.endsWith('.vercel.app');
+  const esLocal = origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:');
+  const esFrontEndUrl = process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL;
+  
+  if (allowedOrigins.includes(origin) || esVercel || esLocal || esFrontEndUrl) {
+    callback(null, true);
+  } else {
+    callback(new Error('No permitido por CORS de DigiBank'));
+  }
+};
+
 // Configuración del servidor Socket.io para comunicación bidireccional (Foro)
 const io = socketIo(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: verificarOrigenCORS,
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -42,7 +64,7 @@ const PORT = process.env.PORT || 3000;
 // 1. Aplicar Middlewares de Seguridad y Parsing globales
 app.use(helmet()); // Cabeceras de seguridad HTTP por defecto
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: verificarOrigenCORS,
   credentials: true // Permite el viaje de cookies en peticiones CORS
 }));
 app.use(express.json({ limit: '10kb' })); // Parseo de JSON con límite de carga
