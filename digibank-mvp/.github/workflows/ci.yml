@@ -1,0 +1,46 @@
+# ============================================================
+# PSEUDOCODIGO: ci.yml (GitHub Actions - Pipeline CI/CD)
+# PROPOSITO: Ejecutar automaticamente lint, tests y build
+#            cada vez que se hace push a la rama main.
+#            Si algo falla, el deploy NO se ejecuta.
+# ============================================================
+
+# ALGORITMO DEL PIPELINE:
+#
+# DISPARADOR:
+#   - Cuando se hace push a la rama "main"
+#   - Cuando se abre un Pull Request hacia "main"
+#
+# JOB 1 — backend-ci:
+#   1. Clonar el repositorio
+#   2. Instalar Node.js 20 LTS
+#   3. Ir a la carpeta /backend
+#   4. Ejecutar: npm install
+#   5. Ejecutar: npm run lint    → debe pasar sin errores
+#   6. Ejecutar: npm test        → deben pasar todos los tests
+#   7. Si cualquier paso falla → detener pipeline, NO hacer deploy
+#
+# JOB 2 — frontend-ci (depende de que job 1 pase):
+#   1. Clonar el repositorio
+#   2. Instalar Node.js 20 LTS
+#   3. Ir a la carpeta /frontend
+#   4. Ejecutar: npm install
+#   5. Ejecutar: npm run lint
+#   6. Ejecutar: npm run build   → genera la carpeta /dist
+#   7. Si build falla → detener pipeline
+#
+# JOB 3 — deploy (solo si jobs 1 y 2 pasan, solo en push a main):
+#   - Frontend: Vercel detecta automaticamente el push y despliega
+#   - Backend: Render detecta automaticamente el push y despliega
+
+# ⚠️  CONFIGURACION EXTERNA REQUERIDA ANTES DE USAR ESTE ARCHIVO:
+#
+#     EN GITHUB → Settings → Secrets and Variables → Actions:
+#     AGREGAR LOS SIGUIENTES SECRETS:
+#
+#     VERCEL_TOKEN          → Token de API de Vercel
+#     VERCEL_ORG_ID         → ID de la organizacion en Vercel
+#     VERCEL_PROJECT_ID     → ID del proyecto frontend en Vercel
+#     RENDER_DEPLOY_HOOK    → URL del webhook de deploy de Render
+#
+#     SIN ESTOS SECRETS EL PIPELINE DE DEPLOY NO FUNCIONARA
