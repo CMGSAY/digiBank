@@ -6,6 +6,14 @@ const fs = require('fs');
 const path = require('path');
 const mysql = require('mysql2/promise');
 const { execSync } = require('child_process');
+const dns = require('dns');
+
+try {
+  dns.setServers(['1.1.1.1', '1.0.0.1', '8.8.8.8']);
+  console.log('✓ Servidores DNS de resolución forzados a Cloudflare (1.1.1.1) para evitar fallos de propagación.');
+} catch (err) {
+  // Ignorar error si no hay permisos de red para cambiar DNS resolver en el runtime
+}
 
 async function main() {
   console.log('=== Iniciando configuración de Bases de Datos en la Nube ===\n');
@@ -42,8 +50,10 @@ async function main() {
     console.log('✓ Conexión establecida con MySQL.');
 
     // Leer el archivo dbmysql.md que contiene el DDL y los datos de prueba
-    // Está en la raíz del proyecto (dos niveles arriba de backend/scripts)
-    const sqlPath = path.join(__dirname, '..', '..', 'dbmysql.md');
+    let sqlPath = path.join(__dirname, '..', '..', 'dbmysql.md');
+    if (!fs.existsSync(sqlPath)) {
+      sqlPath = path.join(__dirname, '..', '..', '..', 'dbmysql.md');
+    }
     console.log(`Leyendo SQL desde: ${sqlPath}`);
     
     if (!fs.existsSync(sqlPath)) {
@@ -57,8 +67,12 @@ async function main() {
     console.log('✓ Base de datos MySQL configurada e inicializada correctamente.');
 
   } catch (error) {
-    console.error('✗ ERROR configurando MySQL:', error.message);
-    process.exit(1);
+    if (error.code === 'ER_DUP_ENTRY' || error.errno === 1062) {
+      console.log('⚠ Advertencia MySQL: Las tablas o registros semilla ya existen (Duplicate Entry). Continuando con MongoDB...');
+    } else {
+      console.error('✗ ERROR configurando MySQL:', error.message);
+      process.exit(1);
+    }
   } finally {
     if (connection) {
       await connection.end();
@@ -78,8 +92,11 @@ async function main() {
   }
 
   try {
-    // El script dbmongo.md está en la raíz del proyecto (dos niveles arriba de backend/scripts)
-    const mongoScriptPath = path.join(__dirname, '..', '..', 'dbmongo.md');
+    // El script dbmongo.md está en la raíz del proyecto
+    let mongoScriptPath = path.join(__dirname, '..', '..', 'dbmongo.md');
+    if (!fs.existsSync(mongoScriptPath)) {
+      mongoScriptPath = path.join(__dirname, '..', '..', '..', 'dbmongo.md');
+    }
     console.log(`Ejecutando script de MongoDB desde: ${mongoScriptPath}`);
 
     if (!fs.existsSync(mongoScriptPath)) {
@@ -91,6 +108,7 @@ async function main() {
       stdio: 'inherit',
       env: {
         ...process.env,
+        NODE_PATH: path.join(__dirname, '..', 'node_modules'),
         MONGODB_URI: mongoUri
       }
     });
