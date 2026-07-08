@@ -23,6 +23,11 @@ const { limiterGeneral, limiterAuth } = require('./middlewares/rateLimiter.middl
 const app = express();
 const server = http.createServer(app);
 
+// Confiar en el proxy en producción para habilitar cookies seguras a través de HTTPS
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 // Configuración del servidor Socket.io para comunicación bidireccional (Foro)
 const io = socketIo(server, {
   cors: {

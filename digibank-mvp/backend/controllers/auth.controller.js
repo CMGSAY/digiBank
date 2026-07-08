@@ -43,7 +43,7 @@ async function loginGoogle(req, res) {
     res.cookie('jwt', google_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 15 * 60 * 1000 // 15 minutos de expiración de sesión
     });
 
@@ -76,7 +76,7 @@ async function logout(req, res) {
   res.clearCookie('jwt', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax'
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
   });
   return res.status(200).json({
     success: true,

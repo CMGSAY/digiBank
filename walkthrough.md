@@ -22,6 +22,10 @@ Este documento resume los cambios implementados para habilitar el despliegue del
 5. **Actualización de Repositorio Git:**
    - Commiteamos y subimos todos los cambios a la rama `main` de tu repositorio remoto en [GitHub](https://github.com/CMGSAY/digiBank.git).
 
+6. **Soporte para Cookies Cross-Site (Vercel & Render) y Trust Proxy:**
+   - Modificamos [auth.controller.js](file:///c:/Users/carlo/Desktop/BankOnline/digibank-mvp/backend/controllers/auth.controller.js) para que en producción la cookie de sesión `jwt` se envíe con `SameSite=None` y `Secure`. Esto soluciona el bloqueo del navegador al realizar peticiones entre diferentes dominios (`vercel.app` hacia `onrender.com`).
+   - Modificamos [server.js](file:///c:/Users/carlo/Desktop/BankOnline/digibank-mvp/backend/server.js) para configurar `app.set('trust proxy', 1)` cuando `NODE_ENV === 'production'`. Esto permite que Express confíe en la cabecera `X-Forwarded-Proto` de Render y reconozca la conexión HTTPS, requisito indispensable para el funcionamiento de cookies seguras.
+
 ---
 
 ## 🚀 Guía de Despliegue Paso a Paso
