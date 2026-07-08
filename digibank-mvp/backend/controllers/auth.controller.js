@@ -19,7 +19,7 @@ async function loginGoogle(req, res) {
     }
 
     let firebaseUser;
-    const esSandbox = process.env.NODE_ENV !== 'production' && admin.esSandbox;
+    const esSandbox = admin.esSandbox;
 
     // Procesar token simulado si estamos en local/sandbox
     if (esSandbox && google_token.startsWith('mock-token-')) {

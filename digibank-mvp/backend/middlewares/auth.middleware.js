@@ -25,7 +25,7 @@ async function verificarToken(req, res, next) {
     let decodedToken;
 
     // Verificar si Firebase está en modo Simulación (sandbox) y procesar token simulado
-    const esSandbox = process.env.NODE_ENV !== 'production' && admin.esSandbox;
+    const esSandbox = admin.esSandbox;
     if (esSandbox && token.startsWith('mock-token-')) {
       const mockEmail = token.split('mock-token-')[1];
       const normalizedEmail = mockEmail.includes('@') ? mockEmail : `${mockEmail}@digibank.com`;
