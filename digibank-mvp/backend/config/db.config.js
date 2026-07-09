@@ -19,6 +19,37 @@ async function conectarMySQL() {
   try {
     const connection = await pool.getConnection();
     console.log('✓ Conexión establecida con MySQL (Pool activo).');
+    
+    // Migraciones automáticas para la tabla PRESTAMOS (Soporte transaccional)
+    try {
+      await connection.query(`
+        ALTER TABLE PRESTAMOS 
+        MODIFY COLUMN estado ENUM('PENDIENTE', 'APROBADO', 'RECHAZADO', 'PENDIENTE_VALIDACION') DEFAULT 'PENDIENTE'
+      `);
+      
+      try {
+        await connection.query('ALTER TABLE PRESTAMOS ADD COLUMN saldo_pendiente DECIMAL(15, 2) NOT NULL DEFAULT 0.00');
+      } catch (e) {
+        // Columna ya existe o error similar, continuar de forma segura
+      }
+
+      try {
+        await connection.query('ALTER TABLE PRESTAMOS ADD COLUMN cuota_mensual DECIMAL(15, 2) NOT NULL DEFAULT 0.00');
+      } catch (e) {
+        // Columna ya existe o error similar, continuar de forma segura
+      }
+
+      try {
+        await connection.query('ALTER TABLE PRESTAMOS ADD COLUMN fecha_limite_pago DATETIME NULL');
+      } catch (e) {
+        // Columna ya existe o error similar, continuar de forma segura
+      }
+      
+      console.log('✓ Migraciones automáticas de PRESTAMOS completadas.');
+    } catch (migError) {
+      console.warn('⚠ Advertencia en migraciones automáticas MySQL:', migError.message);
+    }
+    
     connection.release();
     return pool;
   } catch (error) {
