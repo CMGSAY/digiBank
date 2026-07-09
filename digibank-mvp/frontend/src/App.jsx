@@ -34,7 +34,22 @@ import NotFound from './pages/NotFound';
 
 // Guard para proteger rutas y exigir sesión activa
 const RutaProtegida = ({ children, rolesPermitidos }) => {
-  const { usuario } = useAuth();
+  const { usuario, cargando } = useAuth();
+
+  if (cargando) {
+    return (
+      <div className="min-h-screen bg-[#0B0F19] text-white flex flex-col items-center justify-center gap-4">
+        <div className="relative w-16 h-16">
+          <div className="absolute inset-0 rounded-full border-4 border-slate-800"></div>
+          <div className="absolute inset-0 rounded-full border-4 border-t-[#00A4E0] animate-spin"></div>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          <h3 className="text-xl font-bold tracking-wide font-sans">DigiBank</h3>
+          <p className="text-sm text-slate-400 animate-pulse">Iniciando sesión segura...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!usuario) {
     return <Navigate to="/login" replace />;

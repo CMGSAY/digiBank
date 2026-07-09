@@ -8,7 +8,7 @@ const rateLimit = require('express-rate-limit');
  */
 const limiterGeneral = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100,
+  max: process.env.NODE_ENV === 'development' ? 10000 : 100,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -26,7 +26,7 @@ const limiterGeneral = rateLimit({
  */
 const limiterAuth = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
-  max: process.env.NODE_ENV === 'development' ? 100 : 10,
+  max: process.env.NODE_ENV === 'development' ? 1000 : 10,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -44,7 +44,7 @@ const limiterAuth = rateLimit({
  */
 const limiterOperaciones = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutos
-  max: 20,
+  max: process.env.NODE_ENV === 'development' ? 1000 : 20,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
