@@ -118,7 +118,7 @@ function TasasCambio() {
                       placeholder="e.g. 7.75"
                       value={tasaCompra}
                       onChange={(e) => setTasaCompra(e.target.value)}
-                      className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-[#00A4E0] text-sm font-bold font-mono"
+                      className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-[#00A4E0] text-sm font-bold font-mono text-slate-800"
                       required
                     />
                   </div>
@@ -131,13 +131,13 @@ function TasasCambio() {
                       placeholder="e.g. 7.82"
                       value={tasaVenta}
                       onChange={(e) => setTasaVenta(e.target.value)}
-                      className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-[#00A4E0] text-sm font-bold font-mono"
+                      className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-[#00A4E0] text-sm font-bold font-mono text-slate-800"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-500 leading-relaxed">
+                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-600 leading-relaxed">
                   <strong>Nota Administrativa:</strong> La actualización de estas tasas impactará en tiempo real la calculadora de divisas del Navbar y las transferencias multimoneda de todos los clientes financieros.
                 </div>
 
