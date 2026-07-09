@@ -253,7 +253,7 @@ function Dashboard() {
                           >
                             DIGIBANK - {c.numero_cuenta}
                           </Link>
-                          <span className="text-xs font-bold text-slate-400 uppercase">
+                          <span className="text-xs font-bold text-slate-500 uppercase">
                             ({usuario?.nombres} {usuario?.apellidos})
                           </span>
                         </div>
@@ -271,7 +271,7 @@ function Dashboard() {
                       </div>
 
                       <div className="flex justify-between items-center border-t border-slate-100 pt-3 mt-2">
-                        <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">
+                        <span className="text-xs text-slate-500 uppercase tracking-wider font-semibold">
                           Moneda: {c.codigo_iso}
                         </span>
                         <button 

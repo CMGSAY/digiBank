@@ -169,18 +169,18 @@ function Divisas() {
                       <USFlag />
                       <h3 className="text-base font-bold text-[#003B7A]">Dólar Estadounidense (USD)</h3>
                     </div>
-                    <span className="text-[10px] font-semibold text-slate-400 font-mono uppercase bg-slate-50 px-2 py-0.5 rounded border">
+                    <span className="text-[10px] font-semibold text-slate-600 font-mono uppercase bg-slate-50 px-2 py-0.5 rounded border border-slate-200">
                       Banguat Ref.
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/60 text-center">
-                      <span className="text-[10px] font-bold text-slate-400 block uppercase">Precio Compra</span>
+                      <span className="text-[10px] font-bold text-slate-600 block uppercase">Precio Compra</span>
                       <span className="text-xl font-extrabold text-slate-800 mt-1 block">Q {baseUSD.toFixed(4)}</span>
                     </div>
                     <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/60 text-center">
-                      <span className="text-[10px] font-bold text-slate-400 block uppercase">Precio Venta</span>
+                      <span className="text-[10px] font-bold text-slate-600 block uppercase">Precio Venta</span>
                       <span className="text-xl font-extrabold text-slate-800 mt-1 block">Q {ventaUSD.toFixed(4)}</span>
                     </div>
                   </div>
@@ -193,24 +193,24 @@ function Divisas() {
                       <EUFlag />
                       <h3 className="text-base font-bold text-[#003B7A]">Euro (EUR)</h3>
                     </div>
-                    <span className="text-[10px] font-semibold text-slate-400 font-mono uppercase bg-slate-50 px-2 py-0.5 rounded border">
+                    <span className="text-[10px] font-semibold text-slate-600 font-mono uppercase bg-slate-50 px-2 py-0.5 rounded border border-slate-200">
                       Ficticio / Ref.
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/60 text-center">
-                      <span className="text-[10px] font-bold text-slate-400 block uppercase">Precio Compra</span>
+                      <span className="text-[10px] font-bold text-slate-600 block uppercase">Precio Compra</span>
                       <span className="text-xl font-extrabold text-slate-800 mt-1 block">Q {baseEUR.toFixed(4)}</span>
                     </div>
                     <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/60 text-center">
-                      <span className="text-[10px] font-bold text-slate-400 block uppercase">Precio Venta</span>
+                      <span className="text-[10px] font-bold text-slate-600 block uppercase">Precio Venta</span>
                       <span className="text-xl font-extrabold text-slate-800 mt-1 block">Q {ventaEUR.toFixed(4)}</span>
                     </div>
                   </div>
                 </div>
 
-                <p className="text-[10px] text-slate-400 italic">
+                <p className="text-[10px] text-slate-500 italic">
                   * Las tasas reflejadas corresponden al tipo de cambio oficial provisto por el Banco de Guatemala en tiempo real.
                 </p>
               </div>
