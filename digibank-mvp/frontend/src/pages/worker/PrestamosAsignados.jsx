@@ -86,25 +86,25 @@ function PrestamosAsignados() {
 
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-slate-600">
                         <div>
-                          <span className="text-slate-400 block font-semibold uppercase">Cuenta Desembolso</span>
+                          <span className="text-slate-500 block font-semibold uppercase">Cuenta Desembolso</span>
                           <span className="font-semibold text-slate-700 font-mono">{p.numero_cuenta}</span>
                         </div>
                         <div>
-                          <span className="text-slate-400 block font-semibold uppercase">Ingresos Mensuales</span>
+                          <span className="text-slate-500 block font-semibold uppercase">Ingresos Mensuales</span>
                           <span className="font-semibold text-slate-700 font-mono">{p.simbolo} {parseFloat(p.ingresos_declarados).toLocaleString()}</span>
                         </div>
                         <div>
-                          <span className="text-slate-400 block font-semibold uppercase">Fecha Solicitud</span>
+                          <span className="text-slate-500 block font-semibold uppercase">Fecha Solicitud</span>
                           <span className="font-semibold text-slate-700">{new Date(p.fecha_solicitud).toLocaleDateString()}</span>
                         </div>
                         <div>
-                          <span className="text-slate-400 block font-semibold uppercase">Estado Actual</span>
+                          <span className="text-slate-500 block font-semibold uppercase">Estado Actual</span>
                           <span className="px-2 py-0.5 font-bold rounded bg-yellow-100 text-yellow-800 uppercase">Revisión Ventanilla</span>
                         </div>
                       </div>
 
                       <div className="space-y-2">
-                        <label className="text-slate-650 text-xs font-semibold block">Justificación o Resolución del Cajero</label>
+                        <label className="text-slate-700 text-xs font-semibold block">Justificación o Resolución del Cajero</label>
                         <textarea
                           placeholder="Indique los motivos de la resolución..."
                           value={comentariosPrestamo[p.id_prestamo] || ''}

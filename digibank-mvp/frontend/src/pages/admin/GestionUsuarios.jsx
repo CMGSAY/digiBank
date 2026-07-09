@@ -107,7 +107,7 @@ function GestionUsuarios() {
                   )}
 
                   <div className="space-y-1">
-                    <label className="text-slate-650 text-xs font-semibold block">Nombres</label>
+                    <label className="text-slate-700 text-xs font-semibold block">Nombres</label>
                     <input
                       type="text"
                       placeholder="Nombres del empleado"
@@ -119,7 +119,7 @@ function GestionUsuarios() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-slate-650 text-xs font-semibold block">Apellidos</label>
+                    <label className="text-slate-700 text-xs font-semibold block">Apellidos</label>
                     <input
                       type="text"
                       placeholder="Apellidos del empleado"
@@ -131,7 +131,7 @@ function GestionUsuarios() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-slate-650 text-xs font-semibold block">Email Institucional</label>
+                    <label className="text-slate-700 text-xs font-semibold block">Email Institucional</label>
                     <input
                       type="email"
                       placeholder="correo@digibank.com"
@@ -143,7 +143,7 @@ function GestionUsuarios() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-slate-650 text-xs font-semibold block">Rol Bancario</label>
+                    <label className="text-slate-700 text-xs font-semibold block">Rol Bancario</label>
                     <select
                       value={rol}
                       onChange={(e) => setRol(e.target.value)}
@@ -156,7 +156,7 @@ function GestionUsuarios() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-slate-650 text-xs font-semibold block">Contraseña Genérica (Deberá cambiarla al entrar)</label>
+                    <label className="text-slate-700 text-xs font-semibold block">Contraseña Genérica (Deberá cambiarla al entrar)</label>
                     <input
                       type="password"
                       placeholder="Contraseña genérica inicial"
@@ -204,7 +204,7 @@ function GestionUsuarios() {
                           <tr key={col.id_usuario} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
                             <td className="p-3 font-bold text-slate-800">{col.nombres} {col.apellidos}</td>
                             <td className="p-3 font-mono text-xs text-slate-500">{col.email}</td>
-                            <td className="p-3 font-semibold text-slate-650 text-xs">{col.rol}</td>
+                            <td className="p-3 font-semibold text-slate-700 text-xs">{col.rol}</td>
                             <td className="p-3">
                               <span className="px-2 py-0.5 text-xs font-bold rounded bg-emerald-100 text-emerald-800">{col.estado}</span>
                             </td>

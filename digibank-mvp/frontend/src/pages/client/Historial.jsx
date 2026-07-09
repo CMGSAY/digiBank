@@ -427,7 +427,7 @@ function Historial() {
               <button
                 type="button"
                 onClick={() => setModalAbierto(false)}
-                className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-650 font-bold text-xs rounded-none transition-colors"
+                className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-none transition-colors"
               >
                 Cancelar
               </button>

@@ -144,19 +144,19 @@ function CajaVentanilla() {
                       <span className="font-bold text-slate-800">{cuentaCliente.nombres} {cuentaCliente.apellidos}</span>
                     </div>
                     <div>
-                      <span className="text-slate-400 text-xs block">Email</span>
+                      <span className="text-slate-500 text-xs block">Email</span>
                       <span className="font-semibold text-slate-700 break-all">{cuentaCliente.email}</span>
                     </div>
                     <div>
-                      <span className="text-slate-400 text-xs block">Número de Cuenta</span>
+                      <span className="text-slate-500 text-xs block">Número de Cuenta</span>
                       <span className="font-mono font-bold text-[#003B7A]">{cuentaCliente.numero_cuenta}</span>
                     </div>
                     <div>
-                      <span className="text-slate-400 text-xs block">Tipo de Cuenta</span>
-                      <span className="font-bold text-slate-650 uppercase text-xs bg-slate-100 px-2 py-0.5 rounded">{cuentaCliente.tipo_cuenta}</span>
+                      <span className="text-slate-500 text-xs block">Tipo de Cuenta</span>
+                      <span className="font-bold text-slate-700 uppercase text-xs bg-slate-100 px-2 py-0.5 rounded">{cuentaCliente.tipo_cuenta}</span>
                     </div>
                     <div>
-                      <span className="text-slate-400 text-xs block">Estado de Cuenta</span>
+                      <span className="text-slate-500 text-xs block">Estado de Cuenta</span>
                       <div className="flex items-center gap-2 mt-1">
                         <span className={`font-bold text-xs px-2 py-0.5 rounded ${
                           cuentaCliente.estado === 'ACTIVA' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'

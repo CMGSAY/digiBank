@@ -24,7 +24,7 @@ async function conectarMySQL() {
     try {
       await connection.query(`
         ALTER TABLE PRESTAMOS 
-        MODIFY COLUMN estado ENUM('PENDIENTE', 'APROBADO', 'RECHAZADO', 'PENDIENTE_VALIDACION') DEFAULT 'PENDIENTE'
+        MODIFY COLUMN estado ENUM('PENDIENTE', 'APROBADO', 'RECHAZADO', 'PENDIENTE_VALIDACION', 'ASIGNADO_A_EMPLEADO') DEFAULT 'PENDIENTE'
       `);
       
       try {

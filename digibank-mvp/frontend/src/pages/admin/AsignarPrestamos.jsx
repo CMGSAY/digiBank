@@ -95,24 +95,24 @@ function AsignarPrestamos() {
                         <span className="text-lg font-black text-[#003B7A] font-mono">{sol.simbolo} {parseFloat(sol.monto_solicitado).toLocaleString()}</span>
                       </div>
 
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-xs text-slate-650">
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-xs text-slate-700">
                         <div>
-                          <span className="text-slate-400 block font-semibold uppercase">Cuenta Desembolso</span>
+                          <span className="text-slate-500 block font-semibold uppercase">Cuenta Desembolso</span>
                           <span className="font-semibold text-slate-700 font-mono">{sol.numero_cuenta}</span>
                         </div>
                         <div>
-                          <span className="text-slate-400 block font-semibold uppercase">Ingresos Mensuales</span>
-                          <span className="font-semibold text-slate-750 font-mono">{sol.simbolo} {parseFloat(sol.ingresos_declarados).toLocaleString()}</span>
+                          <span className="text-slate-500 block font-semibold uppercase">Ingresos Mensuales</span>
+                          <span className="font-semibold text-slate-700 font-mono">{sol.simbolo} {parseFloat(sol.ingresos_declarados).toLocaleString()}</span>
                         </div>
                         <div>
-                          <span className="text-slate-400 block font-semibold uppercase">Fecha Solicitud</span>
-                          <span className="font-semibold text-slate-750">{new Date(sol.fecha_solicitud).toLocaleDateString()}</span>
+                          <span className="text-slate-500 block font-semibold uppercase">Fecha Solicitud</span>
+                          <span className="font-semibold text-slate-700">{new Date(sol.fecha_solicitud).toLocaleDateString()}</span>
                         </div>
                       </div>
 
                       <div className="flex flex-col md:flex-row gap-4 items-end justify-between pt-3 border-t border-slate-200">
                         <div className="space-y-1 w-full md:max-w-xs">
-                          <label className="text-slate-650 text-xs font-semibold block">Asignar Empleado para Aprobación</label>
+                          <label className="text-slate-700 text-xs font-semibold block">Asignar Empleado para Aprobación</label>
                           <select
                             value={empleadoAsignado[sol.id_prestamo] || ''}
                             onChange={(e) => setEmpleadoAsignado({ ...empleadoAsignado, [sol.id_prestamo]: e.target.value })}

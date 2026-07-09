@@ -95,7 +95,7 @@ function RegistrarCliente() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-slate-650 text-xs font-semibold block">Nombres</label>
+                    <label className="text-slate-700 text-xs font-semibold block">Nombres</label>
                     <input
                       type="text"
                       placeholder="Nombres del titular"
@@ -106,7 +106,7 @@ function RegistrarCliente() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-slate-650 text-xs font-semibold block">Apellidos</label>
+                    <label className="text-slate-700 text-xs font-semibold block">Apellidos</label>
                     <input
                       type="text"
                       placeholder="Apellidos del titular"
@@ -120,7 +120,7 @@ function RegistrarCliente() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-slate-650 text-xs font-semibold block">Documento de Identificación (DPI)</label>
+                    <label className="text-slate-700 text-xs font-semibold block">Documento de Identificación (DPI)</label>
                     <input
                       type="text"
                       placeholder="Número de DPI"
@@ -131,7 +131,7 @@ function RegistrarCliente() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-slate-650 text-xs font-semibold block">Correo Electrónico</label>
+                    <label className="text-slate-700 text-xs font-semibold block">Correo Electrónico</label>
                     <input
                       type="email"
                       placeholder="correo@ejemplo.com"
@@ -145,7 +145,7 @@ function RegistrarCliente() {
 
                 <div className="grid grid-cols-3 gap-4">
                   <div className="space-y-1 col-span-1">
-                    <label className="text-slate-655 text-xs font-semibold block">Moneda de Apertura</label>
+                    <label className="text-slate-700 text-xs font-semibold block">Moneda de Apertura</label>
                     <select
                       value={moneda}
                       onChange={(e) => setMoneda(e.target.value)}
@@ -156,7 +156,7 @@ function RegistrarCliente() {
                     </select>
                   </div>
                   <div className="space-y-1 col-span-2">
-                    <label className="text-slate-655 text-xs font-semibold block">Monto de Apertura (Depósito Inicial)</label>
+                    <label className="text-slate-700 text-xs font-semibold block">Monto de Apertura (Depósito Inicial)</label>
                     <input
                       type="number"
                       step="0.01"
@@ -171,7 +171,7 @@ function RegistrarCliente() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-slate-650 text-xs font-semibold block">Contraseña Genérica (Deberá cambiarla al ingresar)</label>
+                  <label className="text-slate-700 text-xs font-semibold block">Contraseña Genérica (Deberá cambiarla al ingresar)</label>
                   <input
                     type="password"
                     placeholder="Contraseña genérica inicial"

@@ -179,14 +179,14 @@ function EstadoCuenta() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-2 border-b border-slate-300">
               <div>
                 <h2 className="text-2xl font-bold text-[#003B7A]">Monetarias</h2>
-                <p className="text-slate-650 text-sm mt-1">
+                <p className="text-slate-600 text-sm mt-1">
                   Estado de cuenta del mes: {nombreMes(mesActualStr)}
                 </p>
               </div>
 
               {/* Selector de cuenta */}
               <div className="flex flex-wrap items-center gap-2 text-sm self-stretch md:self-auto">
-                <span className="text-slate-550 font-bold">Seleccionar Cuenta:</span>
+                <span className="text-slate-600 font-bold">Seleccionar Cuenta:</span>
                 <select
                   value={cuentaSeleccionada?.id_cuenta || ''}
                   onChange={(e) => {
