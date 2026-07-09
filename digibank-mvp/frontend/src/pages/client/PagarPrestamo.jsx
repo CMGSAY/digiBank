@@ -7,6 +7,7 @@ import { obtenerPrestamos, pagarPrestamo } from '../../services/prestamo.service
 
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import ModalAlerta from '../../components/ModalAlerta';
 import { Landmark, Calendar, AlertTriangle, CheckCircle, ArrowLeft } from 'lucide-react';
 
 function PagarPrestamo() {
@@ -25,6 +26,19 @@ function PagarPrestamo() {
   // Mensajes de estado
   const [errorForm, setErrorForm] = useState(null);
   const [exitoForm, setExitoForm] = useState(null);
+
+  // Estado de modal de alerta
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContent, setModalContent] = useState('');
+  const [modalType, setModalType] = useState('success');
+
+  const abrirModal = (titulo, contenido, tipo = 'success') => {
+    setModalTitle(titulo);
+    setModalContent(contenido);
+    setModalType(tipo);
+    setModalOpen(true);
+  };
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -85,7 +99,9 @@ function PagarPrestamo() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!prestamoSeleccionado || !cuentaOrigenId) {
-      setErrorForm('Debe seleccionar un préstamo y una cuenta de origen.');
+      const msg = 'Debe seleccionar un préstamo y una cuenta de origen.';
+      setErrorForm(msg);
+      abrirModal('Error en el Pago', msg, 'error');
       return;
     }
 
@@ -100,6 +116,7 @@ function PagarPrestamo() {
 
       if (res && res.success) {
         setExitoForm('✓ Pago de cuota de préstamo procesado con éxito.');
+        abrirModal('¡Pago Exitoso!', '¡Felicidades, pagaste el crédito!', 'success');
         // Recargar préstamos y cuentas
         const [resCuentas, resPrestamos] = await Promise.all([
           obtenerCuentasUsuario(),
@@ -120,11 +137,15 @@ function PagarPrestamo() {
           setPrestamoSeleccionado(actualizado || aprobados[0] || null);
         }
       } else {
-        setErrorForm(res.error?.message || 'Error al procesar el pago.');
+        const msg = res.error?.message || 'Error al procesar el pago.';
+        setErrorForm(msg);
+        abrirModal('Error en el Pago', `No se pudo realizar el pago:\n\n${msg}`, 'error');
       }
     } catch (err) {
       console.error('Error al efectuar pago:', err);
-      setErrorForm(err.response?.data?.error?.message || 'Error de red al procesar el pago.');
+      const msg = err.response?.data?.error?.message || 'Error de red al procesar el pago.';
+      setErrorForm(msg);
+      abrirModal('Error en el Pago', `No se pudo realizar el pago:\n\n${msg}`, 'error');
     } finally {
       setProcesando(false);
     }
@@ -290,6 +311,13 @@ function PagarPrestamo() {
 
       </div>
 
+      <ModalAlerta 
+        isOpen={modalOpen} 
+        onClose={() => setModalOpen(false)} 
+        title={modalTitle} 
+        content={modalContent} 
+        type={modalType} 
+      />
     </div>
   );
 }

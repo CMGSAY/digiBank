@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../services/axiosInstance';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import ModalAlerta from '../../components/ModalAlerta';
 import { 
   Send, Landmark, RefreshCw, CheckCircle2, 
   AlertCircle, UserCheck, ArrowRight
@@ -36,6 +37,19 @@ function Transferencias() {
   const [titularValidado, setTitularValidado] = useState('');
   const [errorValidacion, setErrorValidacion] = useState('');
   const [montoAjena, setMontoAjena] = useState('');
+
+  // Estado de modal de alerta
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContent, setModalContent] = useState('');
+  const [modalType, setModalType] = useState('success');
+
+  const abrirModal = (titulo, contenido, tipo = 'success') => {
+    setModalTitle(titulo);
+    setModalContent(contenido);
+    setModalType(tipo);
+    setModalOpen(true);
+  };
 
   // Enviar formulario (Procesando)
   const [transferiendo, setTransferiendo] = useState(false);
@@ -105,12 +119,16 @@ function Transferencias() {
     const destino = esPropia ? cuentaDestinoIdPropia : cuentaDestinoNumeroAjena;
 
     if (!destino) {
-      setErrorGlobal('Por favor selecciona o valida la cuenta de destino.');
+      const msg = 'Por favor selecciona o valida la cuenta de destino.';
+      setErrorGlobal(msg);
+      abrirModal('Error de Transferencia', msg, 'error');
       return;
     }
 
     if (!montoOperar || parseFloat(montoOperar) <= 0) {
-      setErrorGlobal('El monto a transferir debe ser mayor a cero.');
+      const msg = 'El monto a transferir debe ser mayor a cero.';
+      setErrorGlobal(msg);
+      abrirModal('Error de Transferencia', msg, 'error');
       return;
     }
 
@@ -128,6 +146,7 @@ function Transferencias() {
 
       if (response.data && response.data.success) {
         setMensajeExito(`¡Transferencia completada con éxito! Referencia: ${response.data.data.numero_referencia}`);
+        abrirModal('¡Transferencia Exitosa!', `¡Transferencia exitosa!\n\nReferencia: ${response.data.data.numero_referencia}`, 'success');
         // Resetear campos
         setMontoPropia('');
         setMontoAjena('');
@@ -139,7 +158,9 @@ function Transferencias() {
       }
     } catch (err) {
       console.error('Error al procesar transferencia:', err);
-      setErrorGlobal(err.response?.data?.error?.message || 'Ocurrió un error al realizar la transferencia. Intenta de nuevo.');
+      const msg = err.response?.data?.error?.message || 'Ocurrió un error al realizar la transferencia. Intenta de nuevo.';
+      setErrorGlobal(msg);
+      abrirModal('Error de Transferencia', `¡Transferencia error!\n\nDetalle: ${msg}`, 'error');
     } finally {
       setTransferiendo(false);
     }
@@ -266,7 +287,7 @@ function Transferencias() {
                       <div>
                         <span className="text-[10px] font-bold text-slate-400 block uppercase">Saldo disponible</span>
                         <span className="text-[#003B7A] font-extrabold text-sm mt-0.5 block">
-                          Q {parseFloat(cuentaOrigenObj.saldo).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          {cuentaOrigenObj.simbolo} {parseFloat(cuentaOrigenObj.saldo).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </span>
                       </div>
                     </div>
@@ -290,7 +311,7 @@ function Transferencias() {
                         <option value="">Selecciona cuenta destino...</option>
                         {otrasCuentasUsuario.map(c => (
                           <option key={c.id_cuenta} value={c.id_cuenta}>
-                            {c.tipo_cuenta} - {c.numero_cuenta} (Saldo: Q {parseFloat(c.saldo).toLocaleString()})
+                            {c.tipo_cuenta} - {c.numero_cuenta} (Saldo: {c.simbolo} {parseFloat(c.saldo).toLocaleString()})
                           </option>
                         ))}
                       </select>
@@ -302,7 +323,7 @@ function Transferencias() {
                       </label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 font-bold text-sm">
-                          Q
+                          {cuentaOrigenObj ? cuentaOrigenObj.simbolo : 'Q'}
                         </div>
                         <input
                           type="number"
@@ -388,7 +409,7 @@ function Transferencias() {
                       </label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 font-bold text-sm">
-                          Q
+                          {cuentaOrigenObj ? cuentaOrigenObj.simbolo : 'Q'}
                         </div>
                         <input
                           type="number"
@@ -425,6 +446,13 @@ function Transferencias() {
         </main>
       </div>
 
+      <ModalAlerta 
+        isOpen={modalOpen} 
+        onClose={() => setModalOpen(false)} 
+        title={modalTitle} 
+        content={modalContent} 
+        type={modalType} 
+      />
     </div>
   );
 }

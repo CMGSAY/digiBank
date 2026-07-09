@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import ModalAlerta from '../../components/ModalAlerta';
 import axiosInstance from '../../services/axiosInstance';
 import { useAuth } from '../../context/AuthContext';
 import { 
@@ -20,6 +21,19 @@ function CajaVentanilla() {
   const [monto, setMonto] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [cargando, setCargando] = useState(false);
+
+  // Estado de modal de alerta
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContent, setModalContent] = useState('');
+  const [modalType, setModalType] = useState('success');
+
+  const abrirModal = (titulo, contenido, tipo = 'success') => {
+    setModalTitle(titulo);
+    setModalContent(contenido);
+    setModalType(tipo);
+    setModalOpen(true);
+  };
 
   const buscarCliente = async (e) => {
     if (e) e.preventDefault();
@@ -58,13 +72,17 @@ function CajaVentanilla() {
       });
 
       if (res.data && res.data.success) {
-        setExitoCaja(`¡Operación de ${tipoOperacion === 'DEPOSITO' ? 'Depósito' : 'Retiro'} completada exitosamente! Referencia: ${res.data.data.numero_referencia}`);
+        const msg = `¡Operación de ${tipoOperacion === 'DEPOSITO' ? 'Depósito' : 'Retiro'} completada exitosamente! Referencia: ${res.data.data.numero_referencia}`;
+        setExitoCaja(msg);
+        abrirModal('Operación Exitosa', msg, 'success');
         setMonto('');
         setDescripcion('');
         buscarCliente();
       }
     } catch (err) {
-      setErrorCaja(err.response?.data?.error?.message || 'Error al procesar la operación de caja.');
+      const msg = err.response?.data?.error?.message || 'Error al procesar la operación de caja.';
+      setErrorCaja(msg);
+      abrirModal('Error en Operación', `No se pudo realizar la operación:\n\n${msg}`, 'error');
     } finally {
       setCargando(false);
     }
@@ -249,6 +267,14 @@ function CajaVentanilla() {
           </div>
         </div>
       </div>
+
+      <ModalAlerta 
+        isOpen={modalOpen} 
+        onClose={() => setModalOpen(false)} 
+        title={modalTitle} 
+        content={modalContent} 
+        type={modalType} 
+      />
     </div>
   );
 }

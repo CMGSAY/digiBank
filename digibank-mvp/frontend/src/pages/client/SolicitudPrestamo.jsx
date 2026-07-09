@@ -7,6 +7,7 @@ import { solicitarPrestamo } from '../../services/prestamo.service';
 
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import ModalAlerta from '../../components/ModalAlerta';
 import { Calculator, Landmark, ShieldCheck, AlertTriangle, ArrowLeft } from 'lucide-react';
 
 function SolicitudPrestamo() {
@@ -28,6 +29,19 @@ function SolicitudPrestamo() {
   // Mensajes de feedback
   const [errorForm, setErrorForm] = useState(null);
   const [exitoForm, setExitoForm] = useState(null);
+
+  // Estado de modal de alerta
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContent, setModalContent] = useState('');
+  const [modalType, setModalType] = useState('success');
+
+  const abrirModal = (titulo, contenido, tipo = 'success') => {
+    setModalTitle(titulo);
+    setModalContent(contenido);
+    setModalType(tipo);
+    setModalOpen(true);
+  };
 
   useEffect(() => {
     const cargarCuentas = async () => {
@@ -54,7 +68,9 @@ function SolicitudPrestamo() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!cuentaDesembolsoId || !monto || !ingresos || !estabilidad || !telefono) {
-      setErrorForm('Por favor completa todos los campos requeridos.');
+      const msg = 'Por favor completa todos los campos requeridos.';
+      setErrorForm(msg);
+      abrirModal('Error de Solicitud', msg, 'error');
       return;
     }
 
@@ -75,6 +91,7 @@ function SolicitudPrestamo() {
       const res = await solicitarPrestamo(payload);
       if (res && res.success) {
         setExitoForm(res.data.mensaje);
+        abrirModal('¡Solicitud Enviada!', '¡Felicidades, se envió tu solicitud!', 'success');
         // Limpiar campos no estáticos
         setMonto('');
         setIngresos('');
@@ -82,11 +99,15 @@ function SolicitudPrestamo() {
         setTelefono('');
         setDescripcion('');
       } else {
-        setErrorForm(res.error?.message || 'Error al enviar la solicitud.');
+        const msg = res.error?.message || 'Error al enviar la solicitud.';
+        setErrorForm(msg);
+        abrirModal('Error de Solicitud', `No se pudo enviar la solicitud:\n\n${msg}`, 'error');
       }
     } catch (err) {
       console.error('Error al solicitar préstamo:', err);
-      setErrorForm(err.response?.data?.error?.message || 'Error al comunicarse con el servidor.');
+      const msg = err.response?.data?.error?.message || 'Error al comunicarse con el servidor.';
+      setErrorForm(msg);
+      abrirModal('Error de Solicitud', `No se pudo enviar la solicitud:\n\n${msg}`, 'error');
     } finally {
       setProcesando(false);
     }
@@ -272,6 +293,13 @@ function SolicitudPrestamo() {
 
       </div>
 
+      <ModalAlerta 
+        isOpen={modalOpen} 
+        onClose={() => setModalOpen(false)} 
+        title={modalTitle} 
+        content={modalContent} 
+        type={modalType} 
+      />
     </div>
   );
 }

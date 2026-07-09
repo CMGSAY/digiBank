@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import ModalAlerta from '../../components/ModalAlerta';
 import axiosInstance from '../../services/axiosInstance';
 import { useAuth } from '../../context/AuthContext';
 import { UserPlus, CheckCircle, AlertCircle } from 'lucide-react';
@@ -20,10 +21,25 @@ function RegistrarCliente() {
   const [exito, setExito] = useState('');
   const [error, setError] = useState('');
 
+  // Estado de modal de alerta
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContent, setModalContent] = useState('');
+  const [modalType, setModalType] = useState('success');
+
+  const abrirModal = (titulo, contenido, tipo = 'success') => {
+    setModalTitle(titulo);
+    setModalContent(contenido);
+    setModalType(tipo);
+    setModalOpen(true);
+  };
+
   const registrarAsociado = async (e) => {
     e.preventDefault();
     if (!nombre || !apellido || !email || !dpi || !montoApertura || !password || !moneda) {
-      setError('Todos los campos son obligatorios.');
+      const msg = 'Todos los campos son obligatorios.';
+      setError(msg);
+      abrirModal('Error de Registro', msg, 'error');
       return;
     }
     setError('');
@@ -44,7 +60,9 @@ function RegistrarCliente() {
       if (res.data && res.data.success) {
         const data = res.data.data;
         const currencySymbol = data.cuenta.moneda === 'USD' ? '$' : 'Q';
-        setExito(`¡Asociado registrado con éxito! Cuenta correlativa creada: ${data.cuenta.numero_cuenta} (${data.cuenta.moneda}) con saldo inicial ${currencySymbol} ${parseFloat(data.cuenta.saldo).toLocaleString('es-GT', { minimumFractionDigits: 2 })}.`);
+        const msg = `¡Asociado registrado con éxito! Cuenta correlativa creada: ${data.cuenta.numero_cuenta} (${data.cuenta.moneda}) con saldo inicial ${currencySymbol} ${parseFloat(data.cuenta.saldo).toLocaleString('es-GT', { minimumFractionDigits: 2 })}.`;
+        setExito(msg);
+        abrirModal('Registro de Asociado Exitoso', msg, 'success');
         setNombre('');
         setApellido('');
         setEmail('');
@@ -54,7 +72,9 @@ function RegistrarCliente() {
         setMoneda('GTQ');
       }
     } catch (err) {
-      setError(err.response?.data?.error?.message || 'Error al crear el asociado.');
+      const msg = err.response?.data?.error?.message || 'Error al crear el asociado.';
+      setError(msg);
+      abrirModal('Error de Registro', `No se pudo registrar el asociado:\n\n${msg}`, 'error');
     } finally {
       setCargando(false);
     }
@@ -199,6 +219,14 @@ function RegistrarCliente() {
           </div>
         </div>
       </div>
+
+      <ModalAlerta 
+        isOpen={modalOpen} 
+        onClose={() => setModalOpen(false)} 
+        title={modalTitle} 
+        content={modalContent} 
+        type={modalType} 
+      />
     </div>
   );
 }
