@@ -17,6 +17,7 @@ router.get('/dashboard/liquidez', adminController.obtenerLiquidez);
 // 3. Listar y registrar personal (empleados o gerentes)
 router.get('/personal', adminController.listarColaboradores);
 router.post('/personal', adminController.crearColaborador);
+router.put('/personal/:idUsuario/estado', adminController.cambiarEstadoColaborador);
 
 // 4. Listar préstamos mayores (> 3000) pendientes de asignación
 router.get('/prestamos/mayores', adminController.listarPrestamosMayores);

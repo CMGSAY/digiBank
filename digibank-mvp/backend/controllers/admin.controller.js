@@ -286,6 +286,75 @@ async function actualizarTasas(req, res) {
   }
 }
 
+// 10. Cambiar estado de un colaborador (Bloquear/Desbloquear)
+async function cambiarEstadoColaborador(req, res) {
+  try {
+    const idUsuarioTarget = req.params.idUsuario;
+    const { nuevoEstado } = req.body; // 'ACTIVO' o 'BLOQUEADO'
+
+    if (!nuevoEstado || (nuevoEstado !== 'ACTIVO' && nuevoEstado !== 'BLOQUEADO')) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'BAD_REQUEST', message: 'El estado debe ser ACTIVO o BLOQUEADO.' }
+      });
+    }
+
+    // 1. Obtener el rol del usuario que se quiere modificar
+    const [usuarios] = await pool.execute(
+      'SELECT id_rol, email FROM USUARIOS WHERE id_usuario = ?', 
+      [idUsuarioTarget]
+    );
+
+    if (usuarios.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'USER_NOT_FOUND', message: 'Usuario no encontrado.' }
+      });
+    }
+
+    const targetUser = usuarios[0];
+    
+    // Regla de Negocio: No se puede bloquear a un administrador (id_rol = 1)
+    if (targetUser.id_rol === 1) {
+      return res.status(403).json({
+        success: false,
+        error: { code: 'FORBIDDEN', message: 'No está permitido bloquear o modificar el estado de un administrador.' }
+      });
+    }
+
+    // 2. Actualizar el estado del colaborador
+    await pool.execute(
+      'UPDATE USUARIOS SET estado = ? WHERE id_usuario = ?',
+      [nuevoEstado, idUsuarioTarget]
+    );
+
+    // 3. Registrar en la bitácora de MongoDB si es posible
+    try {
+      const AuditLog = require('../models/auditLog.model');
+      await AuditLog.create({
+        id_usuario: req.user.id_usuario,
+        accion: nuevoEstado === 'BLOQUEADO' ? 'BLOQUEAR_COLABORADOR' : 'DESBLOQUEAR_COLABORADOR',
+        detalles: `Se cambió el estado del colaborador ${targetUser.email} a ${nuevoEstado}`,
+        ip: req.ip || '127.0.0.1'
+      });
+    } catch (auditErr) {
+      console.warn('Error al registrar auditoría de cambio de estado:', auditErr.message);
+    }
+
+    return res.status(200).json({
+      success: true,
+      mensaje: `El estado del colaborador ha sido actualizado a ${nuevoEstado}.`
+    });
+
+  } catch (error) {
+    console.error('Error al cambiar estado del colaborador:', error);
+    return res.status(500).json({
+      success: false,
+      error: { code: 'INTERNAL_SERVER_ERROR', message: 'Error interno al actualizar el estado del colaborador.' }
+    });
+  }
+}
+
 module.exports = {
   obtenerKpis,
   obtenerLiquidez,
@@ -295,5 +364,6 @@ module.exports = {
   asignarAEmpleado,
   listarAuditoriaCompleta,
   obtenerTasas,
-  actualizarTasas
+  actualizarTasas,
+  cambiarEstadoColaborador
 };

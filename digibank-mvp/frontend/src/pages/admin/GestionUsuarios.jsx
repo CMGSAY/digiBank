@@ -5,7 +5,7 @@ import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import axiosInstance from '../../services/axiosInstance';
 import { useAuth } from '../../context/AuthContext';
-import { Users, UserPlus, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Users, UserPlus, CheckCircle2, ShieldAlert, Lock, Unlock } from 'lucide-react';
 
 function GestionUsuarios() {
   const { usuario } = useAuth();
@@ -28,6 +28,27 @@ function GestionUsuarios() {
       }
     } catch (err) {
       console.error('Error al cargar personal:', err);
+    } finally {
+      setCargando(false);
+    }
+  };
+
+  const cambiarEstado = async (idUsuario, estadoActual) => {
+    const nuevoEstado = estadoActual === 'ACTIVO' ? 'BLOQUEADO' : 'ACTIVO';
+    setExito('');
+    setError('');
+
+    try {
+      setCargando(true);
+      const res = await axiosInstance.put(`/admin/personal/${idUsuario}/estado`, {
+        nuevoEstado
+      });
+      if (res.data && res.data.success) {
+        setExito(`El estado del colaborador ha sido cambiado a ${nuevoEstado}.`);
+        cargarPersonal();
+      }
+    } catch (err) {
+      setError(err.response?.data?.error?.message || 'Error al actualizar el estado.');
     } finally {
       setCargando(false);
     }
@@ -197,6 +218,7 @@ function GestionUsuarios() {
                           <th className="p-3">Email</th>
                           <th className="p-3">Rol</th>
                           <th className="p-3">Estado</th>
+                          <th className="p-3">Acciones</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -206,7 +228,39 @@ function GestionUsuarios() {
                             <td className="p-3 font-mono text-xs text-slate-500">{col.email}</td>
                             <td className="p-3 font-semibold text-slate-700 text-xs">{col.rol}</td>
                             <td className="p-3">
-                              <span className="px-2 py-0.5 text-xs font-bold rounded bg-emerald-100 text-emerald-800">{col.estado}</span>
+                              <span className={`px-2 py-0.5 text-xs font-bold rounded ${
+                                col.estado === 'ACTIVO' 
+                                  ? 'bg-emerald-100 text-emerald-800' 
+                                  : 'bg-rose-100 text-rose-800'
+                              }`}>
+                                {col.estado}
+                              </span>
+                            </td>
+                            <td className="p-3">
+                              {col.rol === 'ADMIN' ? (
+                                <span className="text-xs text-slate-500 italic flex items-center gap-1">
+                                  <Lock className="w-3.5 h-3.5 text-slate-400" /> Protegido
+                                </span>
+                              ) : (
+                                <button
+                                  onClick={() => cambiarEstado(col.id_usuario, col.estado)}
+                                  className={`px-3 py-1 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 ${
+                                    col.estado === 'ACTIVO'
+                                      ? 'bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200'
+                                      : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-600 border border-emerald-200'
+                                  }`}
+                                >
+                                  {col.estado === 'ACTIVO' ? (
+                                    <>
+                                      <Lock className="w-3 h-3" /> Bloquear
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Unlock className="w-3 h-3" /> Activar
+                                    </>
+                                  )}
+                                </button>
+                              )}
                             </td>
                           </tr>
                         ))}
