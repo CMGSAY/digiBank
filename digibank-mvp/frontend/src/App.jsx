@@ -30,6 +30,7 @@ import PrestamosAsignados from './pages/worker/PrestamosAsignados';
 import RegistrarCliente from './pages/worker/RegistrarCliente';
 import PanelSoporte from './pages/worker/PanelSoporte';
 import Notificaciones from './pages/Notificaciones';
+import CambiarPassword from './pages/CambiarPassword';
 import Unauthorized from './pages/Unauthorized';
 import NotFound from './pages/NotFound';
 
@@ -275,6 +276,15 @@ function App() {
             element={
               <RutaProtegida rolesPermitidos={['TRABAJADOR_SOPORTE']}>
                 <PanelSoporte />
+              </RutaProtegida>
+            } 
+          />
+
+          <Route 
+            path="/seguridad" 
+            element={
+              <RutaProtegida rolesPermitidos={['CLIENTE', 'ADMIN', 'TRABAJADOR_OPERACIONES', 'TRABAJADOR_SOPORTE']}>
+                <CambiarPassword />
               </RutaProtegida>
             } 
           />

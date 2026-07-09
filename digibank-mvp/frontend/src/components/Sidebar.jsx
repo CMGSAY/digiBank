@@ -14,7 +14,8 @@ import {
   Users,
   UserPlus,
   ClipboardList,
-  Bell
+  Bell,
+  Lock
 } from 'lucide-react';
 
 function Sidebar() {
@@ -32,7 +33,8 @@ function Sidebar() {
       { name: 'Asignar Préstamos', path: '/admin/prestamos', icon: FileText },
       { name: 'Auditoría Logs', path: '/admin/auditoria', icon: FileText },
       { name: 'Tasas de Cambio', path: '/admin/tasas', icon: RefreshCw },
-      { name: 'Notificaciones', path: '/admin/notificaciones', icon: Bell }
+      { name: 'Notificaciones', path: '/admin/notificaciones', icon: Bell },
+      { name: 'Seguridad', path: '/seguridad', icon: Lock }
     ];
   } else if (usuario?.rol === 'TRABAJADOR_OPERACIONES') {
     menuItems = [
@@ -40,7 +42,8 @@ function Sidebar() {
       { name: 'Historial Caja', path: '/worker/historial-caja', icon: ClipboardList },
       { name: 'Aprobación Préstamos', path: '/worker/prestamos', icon: FileText },
       { name: 'Registrar Asociado', path: '/worker/clientes', icon: UserPlus },
-      { name: 'Notificaciones', path: '/worker/notificaciones', icon: Bell }
+      { name: 'Notificaciones', path: '/worker/notificaciones', icon: Bell },
+      { name: 'Seguridad', path: '/seguridad', icon: Lock }
     ];
   } else {
     // Cliente
@@ -52,6 +55,7 @@ function Sidebar() {
       { name: 'Historia transacciones', path: '/banca/historial', icon: Clock },
       { name: 'EstadoCuenta', path: '/banca/estadocuenta', icon: FileText },
       { name: 'Presupuesto', path: '/banca/presupuesto', icon: PieChart },
+      { name: 'Seguridad', path: '/seguridad', icon: Lock }
     ];
   }
 

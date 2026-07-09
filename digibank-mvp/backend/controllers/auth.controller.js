@@ -198,9 +198,69 @@ async function crearClientePublico(req, res) {
   }
 }
 
+async function cambiarPassword(req, res) {
+  const bcrypt = require('bcryptjs');
+  try {
+    const idUsuario = req.user.id_usuario;
+    const { passwordAnterior, passwordNuevo, passwordConfirmar } = req.body;
+
+    if (!passwordAnterior || !passwordNuevo || !passwordConfirmar) {
+      return res.status(400).json({
+        success: false,
+        error: { message: 'Todos los campos de contraseña son requeridos.' }
+      });
+    }
+
+    if (passwordNuevo !== passwordConfirmar) {
+      return res.status(400).json({
+        success: false,
+        error: { message: 'Las nuevas contraseñas no coinciden.' }
+      });
+    }
+
+    // Obtener el hash actual
+    const [rows] = await pool.execute('SELECT password_hash FROM USUARIOS WHERE id_usuario = ?', [idUsuario]);
+    if (rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: { message: 'Usuario no encontrado.' }
+      });
+    }
+
+    const user = rows[0];
+    // Verificar contraseña anterior
+    if (user.password_hash) {
+      const match = await bcrypt.compare(passwordAnterior, user.password_hash);
+      if (!match) {
+        return res.status(400).json({
+          success: false,
+          error: { message: 'La contraseña anterior ingresada es incorrecta.' }
+        });
+      }
+    }
+
+    // Hashear nueva contraseña
+    const newHash = await bcrypt.hash(passwordNuevo, 10);
+    await pool.execute('UPDATE USUARIOS SET password_hash = ?, debe_cambiar_password = FALSE WHERE id_usuario = ?', [newHash, idUsuario]);
+
+    return res.status(200).json({
+      success: true,
+      mensaje: '✓ Contraseña actualizada correctamente.'
+    });
+
+  } catch (error) {
+    console.error('Error al cambiar contraseña:', error);
+    return res.status(500).json({
+      success: false,
+      error: { message: 'Error de red al actualizar la contraseña.' }
+    });
+  }
+}
+
 module.exports = {
   loginGoogle,
   logout,
   obtenerPerfilActual,
-  crearClientePublico
+  crearClientePublico,
+  cambiarPassword
 };

@@ -14,6 +14,9 @@ router.post('/logout', authController.logout);
 // Endpoint para obtener información del usuario actual
 router.get('/me', verificarToken, authController.obtenerPerfilActual);
 
+// Endpoint para cambiar contraseña
+router.post('/cambiar-password', verificarToken, authController.cambiarPassword);
+
 // Endpoint público para registro de nuevos asociados
 router.post('/registro', authController.crearClientePublico);
 
