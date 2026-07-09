@@ -105,6 +105,22 @@ async function solicitarPrestamo(payload, idUsuario) {
 
     const idPrestamo = resPrestamo.insertId;
 
+    if (estado === 'PENDIENTE_VALIDACION') {
+      try {
+        const notificacionService = require('./notificacion.service');
+        await notificacionService.crearNotificacion(
+          'Nuevo Préstamo Pendiente',
+          `Se ha registrado una solicitud de préstamo por Q${monto.toFixed(2)} del cliente ID ${idUsuario}. Requiere asignación a un revisor.`,
+          'ADMIN',
+          null,
+          'PRESTAMO_PENDIENTE',
+          idPrestamo
+        );
+      } catch (err) {
+        console.error('Error al generar notificación para admin:', err);
+      }
+    }
+
     // 3. Si se aprobó de forma automática, realizar el desembolso acreditando los fondos
     if (estado === 'APROBADO') {
       const nuevoSaldo = parseFloat(cuenta.saldo) + monto;

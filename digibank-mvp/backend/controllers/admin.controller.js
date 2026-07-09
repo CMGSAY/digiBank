@@ -204,6 +204,21 @@ async function asignarAEmpleado(req, res) {
       });
     }
 
+    // Crear notificación para el empleado asignado
+    try {
+      const notificacionService = require('../services/notificacion.service');
+      await notificacionService.crearNotificacion(
+        'Préstamo Asignado',
+        `Se te ha asignado la revisión y aprobación del préstamo No. ${idPrestamo}.`,
+        'TRABAJADOR_OPERACIONES',
+        parseInt(id_empleado),
+        'PRESTAMO_ASIGNADO',
+        parseInt(idPrestamo)
+      );
+    } catch (err) {
+      console.error('Error al generar notificación para empleado:', err);
+    }
+
     return res.status(200).json({
       success: true,
       mensaje: 'Préstamo asignado exitosamente al colaborador.'

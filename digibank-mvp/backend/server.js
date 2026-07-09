@@ -84,6 +84,7 @@ app.use('/api/v1/presupuestos', require('./routes/presupuesto.routes'));
 app.use('/api/v1/worker', require('./routes/trabajador.routes'));
 app.use('/api/v1/admin', require('./routes/admin.routes'));
 app.use('/api/v1/beneficiarios', require('./routes/beneficiario.routes'));
+app.use('/api/v1/notificaciones', require('./routes/notificacion.routes'));
 
 // Ruta de Salud Pública (Health Check)
 app.get('/api/v1/health', (req, res) => {

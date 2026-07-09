@@ -303,6 +303,31 @@ async function actualizarEstadoPrestamo(req, res) {
       );
     }
 
+    // Crear notificación para Administradores informando sobre la resolución
+    try {
+      const notificacionService = require('../services/notificacion.service');
+      await notificacionService.crearNotificacion(
+        'Préstamo Resuelto',
+        `El revisor ID ${idEmpleado} ha ${estado.toLowerCase()} el préstamo No. ${idPrestamo}.`,
+        'ADMIN',
+        null,
+        'PRESTAMO_RESOLVIDO',
+        parseInt(idPrestamo)
+      );
+      
+      // Notificar al propio cliente que solicitó el préstamo
+      await notificacionService.crearNotificacion(
+        'Resolución de Préstamo',
+        `Tu solicitud de préstamo No. ${idPrestamo} ha sido ${estado.toLowerCase()}.\nComentarios: ${comentario_revisor || 'Sin comentarios adicionales.'}`,
+        'CLIENTE',
+        prestamo.id_usuario_solicitante,
+        'PRESTAMO_RESOLVIDO',
+        parseInt(idPrestamo)
+      );
+    } catch (err) {
+      console.error('Error al generar notificaciones de resolución:', err);
+    }
+
     await connection.commit();
 
     return res.status(200).json({

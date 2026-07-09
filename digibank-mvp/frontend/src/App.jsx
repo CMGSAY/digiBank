@@ -29,6 +29,7 @@ import HistorialCaja from './pages/worker/HistorialCaja';
 import PrestamosAsignados from './pages/worker/PrestamosAsignados';
 import RegistrarCliente from './pages/worker/RegistrarCliente';
 import PanelSoporte from './pages/worker/PanelSoporte';
+import Notificaciones from './pages/Notificaciones';
 import Unauthorized from './pages/Unauthorized';
 import NotFound from './pages/NotFound';
 
@@ -211,6 +212,14 @@ function App() {
               </RutaProtegida>
             } 
           />
+          <Route 
+            path="/admin/notificaciones" 
+            element={
+              <RutaProtegida rolesPermitidos={['ADMIN']}>
+                <Notificaciones />
+              </RutaProtegida>
+            } 
+          />
 
           {/* Rutas Privadas del Trabajador de Operaciones/Soporte */}
           <Route 
@@ -250,6 +259,14 @@ function App() {
             element={
               <RutaProtegida rolesPermitidos={['TRABAJADOR_OPERACIONES', 'ADMIN']}>
                 <RegistrarCliente />
+              </RutaProtegida>
+            } 
+          />
+          <Route 
+            path="/worker/notificaciones" 
+            element={
+              <RutaProtegida rolesPermitidos={['TRABAJADOR_OPERACIONES', 'ADMIN']}>
+                <Notificaciones />
               </RutaProtegida>
             } 
           />

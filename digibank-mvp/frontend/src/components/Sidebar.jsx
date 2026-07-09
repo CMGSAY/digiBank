@@ -13,7 +13,8 @@ import {
   PieChart,
   Users,
   UserPlus,
-  ClipboardList
+  ClipboardList,
+  Bell
 } from 'lucide-react';
 
 function Sidebar() {
@@ -30,14 +31,16 @@ function Sidebar() {
       { name: 'Nómina Personal', path: '/admin/usuarios', icon: Users },
       { name: 'Asignar Préstamos', path: '/admin/prestamos', icon: FileText },
       { name: 'Auditoría Logs', path: '/admin/auditoria', icon: FileText },
-      { name: 'Tasas de Cambio', path: '/admin/tasas', icon: RefreshCw }
+      { name: 'Tasas de Cambio', path: '/admin/tasas', icon: RefreshCw },
+      { name: 'Notificaciones', path: '/admin/notificaciones', icon: Bell }
     ];
   } else if (usuario?.rol === 'TRABAJADOR_OPERACIONES') {
     menuItems = [
       { name: 'Caja Ventanilla', path: '/worker/caja', icon: Calculator },
       { name: 'Historial Caja', path: '/worker/historial-caja', icon: ClipboardList },
       { name: 'Aprobación Préstamos', path: '/worker/prestamos', icon: FileText },
-      { name: 'Registrar Asociado', path: '/worker/clientes', icon: UserPlus }
+      { name: 'Registrar Asociado', path: '/worker/clientes', icon: UserPlus },
+      { name: 'Notificaciones', path: '/worker/notificaciones', icon: Bell }
     ];
   } else {
     // Cliente
