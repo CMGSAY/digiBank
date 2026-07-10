@@ -364,14 +364,6 @@ function FinanzasPersonales() {
                     );
                   })}
                 </div>
-
-                <div className="bg-[#E8F8F0] border border-[#C2EAD2] rounded-xl p-4 flex gap-3 text-xs text-emerald-900">
-                  <Info className="w-5 h-5 shrink-0 text-emerald-600 mt-0.5" />
-                  <div>
-                    <span className="font-bold block mb-0.5">Guardado Automático Híbrido</span>
-                    Al presionar "Guardar Cambios" los límites del mes actual quedarán actualizados de forma permanente en la base de datos documental (MongoDB).
-                  </div>
-                </div>
               </div>
             )}
 

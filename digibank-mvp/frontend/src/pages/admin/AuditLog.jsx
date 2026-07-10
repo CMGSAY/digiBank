@@ -23,7 +23,7 @@ function AuditLog() {
         setLogs(res.data.data);
       }
     } catch (err) {
-      setError('Error al conectar con la bitácora de auditoría MongoDB.');
+      setError('Error al conectar con la bitácora de auditoría.');
       console.error(err);
     } finally {
       setCargando(false);
@@ -63,7 +63,7 @@ function AuditLog() {
               <div>
                 <h1 className="text-2xl font-extrabold text-[#003B7A] tracking-tight">Bitácora de Auditoría de Seguridad</h1>
                 <p className="text-sm text-slate-500 mt-1">
-                  Registros de auditoría almacenados persistentemente en MongoDB para cumplimiento regulatorio
+                  Registros de auditoría almacenados persistentemente para cumplimiento regulatorio
                 </p>
               </div>
               <button 
@@ -97,7 +97,7 @@ function AuditLog() {
             {/* Tabla de Logs */}
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
               {cargando ? (
-                <div className="text-slate-400 text-sm p-12 text-center italic animate-pulse">Consultando logs en base de datos NoSQL...</div>
+                <div className="text-slate-400 text-sm p-12 text-center italic animate-pulse">Consultando logs de auditoría...</div>
               ) : logsFiltrados.length === 0 ? (
                 <div className="text-slate-400 text-sm p-12 text-center italic">No se encontraron registros de auditoría que coincidan con la búsqueda.</div>
               ) : (

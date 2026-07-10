@@ -41,7 +41,7 @@ function HistorialCaja() {
             <div className="flex justify-between items-center border-b border-slate-200 pb-4">
               <div>
                 <h1 className="text-2xl font-extrabold text-[#003B7A] tracking-tight">Historial de Operaciones de Caja</h1>
-                <p className="text-sm text-slate-500 mt-1">Lista de depósitos y retiros registrados en este turno en MongoDB</p>
+                <p className="text-sm text-slate-500 mt-1">Lista de depósitos y retiros registrados en este turno</p>
               </div>
               <button 
                 onClick={cargarHistorial}
@@ -53,7 +53,7 @@ function HistorialCaja() {
 
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
               {cargando ? (
-                <div className="text-slate-400 text-sm p-12 text-center italic animate-pulse">Cargando transacciones de caja de MongoDB...</div>
+                <div className="text-slate-400 text-sm p-12 text-center italic animate-pulse">Cargando transacciones de caja...</div>
               ) : historialCaja.length === 0 ? (
                 <div className="text-slate-400 text-sm p-12 text-center italic">No has registrado operaciones de caja en este turno.</div>
               ) : (
