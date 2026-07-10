@@ -1,4 +1,4 @@
-// Sidebar.jsx - Barra Lateral (Estilo Cooperativa/MICOOPE)
+// Sidebar.jsx - Barra Lateral (Estilo DigiBank)
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';

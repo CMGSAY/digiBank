@@ -1,4 +1,4 @@
-// Historial.jsx - Historial de Transacciones Mensual (Estilo Corporativo Banco Industrial)
+// Historial.jsx - Historial de Transacciones Mensual (Estilo Corporativo DigiBank)
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -380,7 +380,7 @@ function Historial() {
 
             {/* Footer de Auditoría */}
             <div className="bg-slate-100 border border-slate-250 text-slate-600 font-mono text-xs py-3 px-6 rounded-none flex flex-col md:flex-row justify-between items-center gap-4 mt-auto">
-              <span className="font-bold">Banco Industrial, S.A.</span>
+              <span className="font-bold">DigiBank, S.A.</span>
               <span>Fecha actual: {fechaImpresion}</span>
               <span>Hora actual: {horaImpresion}</span>
               <span className="font-bold">Autorización No. {autorizacionNo}</span>

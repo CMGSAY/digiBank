@@ -187,7 +187,7 @@ function Prestamos() {
           <div className="hidden print-header">
             <div className="flex justify-between items-center">
               <div>
-                <h1 className="text-xl font-bold text-[#003B7A]">BANCO INDUSTRIAL, S.A.</h1>
+                <h1 className="text-xl font-bold text-[#003B7A]">DIGIBANK, S.A.</h1>
                 <p className="text-xs text-slate-500 font-mono">ESTADO DE CUENTA DE PRÉSTAMO</p>
               </div>
               <div className="text-right text-xs text-slate-500 font-mono">
